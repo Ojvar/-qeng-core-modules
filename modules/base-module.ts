@@ -1,4 +1,4 @@
 /**
  * Base module class
  */
-export default class BaseModule {}
+export class BaseModule {}
