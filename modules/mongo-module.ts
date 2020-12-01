@@ -1,6 +1,6 @@
 import { Mongo } from "../deps.ts";
 import { BaseModule } from "./base-module.ts";
-import { IHash } from "../lib/interface/hash.ts";
+import { IHash } from "../lib/interfaces/hash";
 
 /**
  * Mongo Module
@@ -114,5 +114,4 @@ export interface IModel {
   setup(db: Mongo.Database): Mongo.Collection<any>;
   collectionName(): string;
   name(): string;
-  schema(): any;
 }
