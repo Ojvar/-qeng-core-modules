@@ -1,4 +1,4 @@
-import { Mongo } from "../deps.ts";
+import { Mongo, MongoDatabase, MongoCollection } from "../deps.ts";
 import { BaseModule } from "./base-module.ts";
 import { IHash } from "../libs/interfaces/hash-interface.ts";
 
@@ -7,8 +7,8 @@ import { IHash } from "../libs/interfaces/hash-interface.ts";
  */
 export class MongoModule extends BaseModule {
   private _client?: Mongo.MongoClient;
-  private _db?: Mongo.Database;
-  private _collections: IHash<Mongo.Collection<any>> = {};
+  private _db?: MongoDatabase.Database;
+  private _collections: IHash<MongoCollection.Collection<any>> = {};
 
   /**
    * Constructor
@@ -29,8 +29,8 @@ export class MongoModule extends BaseModule {
   /**
    * Getter: _db
    */
-  public get db(): Mongo.Database {
-    return this._db as Mongo.Database;
+  public get db(): MongoDatabase.Database {
+    return this._db as MongoDatabase.Database;
   }
 
   /**
@@ -44,11 +44,11 @@ export class MongoModule extends BaseModule {
    * Connect to server
    * @param options
    */
-  public async connectByOptions(options?: Mongo.ClientOptions): Promise<void> {
+  public async connectByOptions(options?: Mongo.ConnectOptions): Promise<void> {
     if (!options) {
-      options = {} as Mongo.ClientOptions;
+      options = {} as Mongo.ConnectOptions;
     }
-    await this.client.connectWithOptions(options);
+    await this.client.connect(options);
   }
 
   /**
@@ -56,7 +56,7 @@ export class MongoModule extends BaseModule {
    * @param options
    */
   public async connectByUri(uri: string): Promise<void> {
-    await this.client.connectWithUri(uri);
+    await this.client.connect(uri);
   }
 
   /**
@@ -71,7 +71,7 @@ export class MongoModule extends BaseModule {
    * Select database
    * @param options
    */
-  public async selectDB(db: string): Promise<Mongo.Database> {
+  public async selectDB(db: string): Promise<MongoDatabase.Database> {
     this._db = await this.client.database(db);
 
     return this._db;
@@ -81,8 +81,8 @@ export class MongoModule extends BaseModule {
    * Get model
    * @param model string Model name
    */
-  public getModel<T>(name: string): Mongo.Collection<T> {
-    const collection: Mongo.Collection<T> = this._collections[name];
+  public getModel<T>(name: string): MongoCollection.Collection<T> {
+    const collection: MongoCollection.Collection<T> = this._collections[name];
 
     if (null == collection) {
       throw new Error("Model not defined");
@@ -94,7 +94,9 @@ export class MongoModule extends BaseModule {
   /**
    * Define a new model
    */
-  public async defineModel<T>(model: IModel): Promise<Mongo.Collection<T>> {
+  public async defineModel<T>(
+    model: IModel
+  ): Promise<MongoCollection.Collection<T>> {
     const name = model.name();
     const newCollection = await model.setup(this.db);
     this._collections[name] = newCollection;
@@ -107,7 +109,7 @@ export class MongoModule extends BaseModule {
  * Model interface
  */
 export interface IModel {
-  setup(db: Mongo.Database): Mongo.Collection<any>;
+  setup(db: MongoDatabase.Database): MongoCollection.Collection<any>;
   collectionName(): string;
   name(): string;
 }

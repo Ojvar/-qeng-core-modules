@@ -14,9 +14,11 @@ export class SessionModule extends BaseModule {
     sessionEngine: SessionFrameworkEnum
   ): Promise<void> {
     const framework: string = sessionEngine;
-    const session = new Session.Session({ framework });
-    await session.init();
 
+    const session = new Session.Session({ framework: framework });
+    await session.init();
+    
+    // app.use(session.use()(session, { path: "/", httpOnly: true, secure: false }))
     app.use(session.use()(session));
   }
 }
