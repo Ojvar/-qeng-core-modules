@@ -1,6 +1,6 @@
 import { Mongo } from "../deps.ts";
 import { BaseModule } from "./base-module.ts";
-import { IHash } from "../lib/interfaces/hash";
+import { IHash } from "../libs/interfaces/hash-interface.ts";
 
 /**
  * Mongo Module
