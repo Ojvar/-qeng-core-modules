@@ -42,7 +42,7 @@ export class MongoModule extends BaseModule {
 
   /**
    * Connect to server
-   * @param options 
+   * @param options
    */
   public async connectByOptions(options?: Mongo.ClientOptions): Promise<void> {
     if (!options) {
@@ -53,7 +53,7 @@ export class MongoModule extends BaseModule {
 
   /**
    * Connect to server
-   * @param options 
+   * @param options
    */
   public async connectByUri(uri: string): Promise<void> {
     await this.client.connectWithUri(uri);
@@ -61,7 +61,7 @@ export class MongoModule extends BaseModule {
 
   /**
    * Close
-   * @param options 
+   * @param options
    */
   public async close(): Promise<void> {
     await this.client.close();
@@ -69,7 +69,7 @@ export class MongoModule extends BaseModule {
 
   /**
    * Select database
-   * @param options 
+   * @param options
    */
   public async selectDB(db: string): Promise<Mongo.Database> {
     this._db = await this.client.database(db);
@@ -81,9 +81,7 @@ export class MongoModule extends BaseModule {
    * Get model
    * @param model string Model name
    */
-  public getModel<T>(
-    name: string,
-  ): Mongo.Collection<T> {
+  public getModel<T>(name: string): Mongo.Collection<T> {
     const collection: Mongo.Collection<T> = this._collections[name];
 
     if (null == collection) {
@@ -96,9 +94,7 @@ export class MongoModule extends BaseModule {
   /**
    * Define a new model
    */
-  public async defineModel<T>(
-    model: IModel,
-  ): Promise<Mongo.Collection<T>> {
+  public async defineModel<T>(model: IModel): Promise<Mongo.Collection<T>> {
     const name = model.name();
     const newCollection = await model.setup(this.db);
     this._collections[name] = newCollection;
