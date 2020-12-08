@@ -34,7 +34,7 @@ export class WSocketServerModule {
         bufWriter,
         headers,
       })
-        .then(this.handleWs)
+        .then(sock => this.handleWs(sock))
         .catch((reason: any) => this.rejectWs(req, reason));
     }
   }

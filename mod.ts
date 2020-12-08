@@ -1,6 +1,9 @@
-export * as RedisModule from "./modules/redis-module.ts";
-export * as MongoModule from "./modules/mongo-module.ts";
-export * as SessionModule from "./modules/session-module.ts";
-export * as WSModule from "./modules/websocket-server-module.ts";
+export * from "./modules/redis-module.ts";
+export * from "./modules/mongo-module.ts";
+export * from "./modules/session-module.ts";
+export * from "./helpers/file-helper.ts";
+export * from "./modules/websocket-server-module.ts";
+export * from "./libs/interfaces/ws-handler-interface.ts";
 
-export * as FileHelper from "./helpers/file-helper.ts";
+/* Deps.ts */
+// export * from "./deps.ts";
